@@ -5,7 +5,12 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const API_BASE_URL = 'https://spypanel.shop';
+// Detalhes da nova API do exemplo cURL
+const RAPIDAPI_HOST = 'instagram120.p.rapidapi.com';
+const RAPIDAPI_BASE_URL = `https://${RAPIDAPI_HOST}`;
+
+// Detalhes da API antiga do código existente
+const OLD_API_BASE_URL = 'https://spypanel.shop';
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -15,15 +20,13 @@ serve(async (req) => {
   try {
     const API_SECRET_KEY = Deno.env.get('API_SECRET_KEY')
     if (!API_SECRET_KEY) {
-      throw new Error('API_SECRET_KEY is not set in Supabase secrets.')
+      throw new Error('API_SECRET_KEY não está configurada nos segredos do Supabase.')
     }
 
-    // Lê o corpo JSON da requisição POST
     const { campo, username } = await req.json()
-
     if (!campo || !username) {
       return new Response(
-        JSON.stringify({ error: 'Missing "campo" or "username" in request body.' }),
+        JSON.stringify({ error: 'Faltando "campo" ou "username" no corpo da requisição.' }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -31,26 +34,69 @@ serve(async (req) => {
       )
     }
 
-    const targetUrl = `${API_BASE_URL}/api/field?campo=${encodeURIComponent(campo)}&username=${encodeURIComponent(username)}&secret=${API_SECRET_KEY}`
+    let targetUrl = '';
+    let requestOptions: RequestInit = {};
+    let isNewApi = false;
 
-    const response = await fetch(targetUrl, {
-      headers: { 'Accept': 'application/json' }
-    })
+    if (campo === 'perfil_completo') {
+      // Usa a nova RapidAPI para buscar perfis
+      isNewApi = true;
+      targetUrl = `${RAPIDAPI_BASE_URL}/api/instagram/profile`;
+      requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-rapidapi-host': RAPIDAPI_HOST,
+          'x-rapidapi-key': API_SECRET_KEY,
+        },
+        body: JSON.stringify({ username }),
+      };
+    } else {
+      // Usa a API antiga para outras requisições (sugestões, posts)
+      targetUrl = `${OLD_API_BASE_URL}/api/field?campo=${encodeURIComponent(campo)}&username=${encodeURIComponent(username)}&secret=${API_SECRET_KEY}`;
+      requestOptions = {
+        headers: { 'Accept': 'application/json' }
+      };
+    }
+
+    const response = await fetch(targetUrl, requestOptions);
 
     if (!response.ok) {
         const errorBody = await response.text();
-        console.error(`External API error: ${response.status} ${response.statusText}`, errorBody);
-        throw new Error(`External API error: ${response.status} ${response.statusText}`)
+        console.error(`Erro na API externa: ${response.status} ${response.statusText}`, errorBody);
+        throw new Error(`Erro na API externa: ${response.status} ${response.statusText}`)
     }
 
-    const data = await response.json()
+    let data = await response.json();
+
+    // Normaliza a estrutura de dados para corresponder ao formato da API antiga
+    if (isNewApi && data.result) {
+      const profile = data.result;
+      data = {
+        results: [
+          {
+            data: {
+              username: profile.username,
+              full_name: profile.full_name,
+              profile_pic_url: profile.profile_pic_url,
+              biography: profile.biography,
+              follower_count: profile.edge_followed_by?.count || 0,
+              following_count: profile.edge_follow?.count || 0,
+              media_count: profile.edge_owner_to_timeline_media?.count || 0,
+              is_verified: profile.is_verified || false,
+              is_private: profile.is_private || false,
+            }
+          }
+        ]
+      };
+    }
 
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
   } catch (error) {
-    console.error('Error in proxy function:', error.message)
+    console.error('Erro na função de proxy:', error.message)
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
