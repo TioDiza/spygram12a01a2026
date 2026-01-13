@@ -91,7 +91,7 @@ const InvasionSimulationPage: React.FC = () => {
           fetchedSuggestions = shuffledNames.slice(0, 15).map(name => ({
             username: name.toLowerCase().replace(' ', '') + Math.floor(Math.random() * 100),
             fullName: name,
-            profile_pic_url: '/foto-bloqueada.png',
+            profile_pic_url: '/perfil.jpg',
           }));
       }
       

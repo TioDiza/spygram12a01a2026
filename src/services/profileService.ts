@@ -9,7 +9,7 @@ import { supabase } from '../integrations/supabase/client';
  * Proxy de imagens para evitar CORS, se ainda não tiver proxy.
  */
 const getProxyImageUrl = (imageUrl: string | undefined): string => {
-    if (!imageUrl || imageUrl.trim() === '') return '/foto-bloqueada.png';
+    if (!imageUrl || imageUrl.trim() === '') return '/perfil.jpg';
     // Se for uma URL local, data URI ou já estiver com proxy, retorna como está.
     if (imageUrl.startsWith('/') || imageUrl.startsWith('data:') || imageUrl.includes('workers.dev') || imageUrl.includes('weserv.nl')) {
         return imageUrl;
@@ -21,7 +21,7 @@ const getProxyImageUrl = (imageUrl: string | undefined): string => {
  * Proxy de imagens leve para avatares, se ainda não tiver proxy.
  */
 const getProxyImageUrlLight = (imageUrl: string | undefined): string => {
-    if (!imageUrl || imageUrl.trim() === '') return '/foto-bloqueada.png';
+    if (!imageUrl || imageUrl.trim() === '') return '/perfil.jpg';
     // Se for uma URL local, data URI ou já estiver com proxy, retorna como está.
     if (imageUrl.startsWith('/') || imageUrl.startsWith('data:') || imageUrl.includes('workers.dev') || imageUrl.includes('weserv.nl')) {
         return imageUrl;
