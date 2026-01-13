@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, MoreHorizontal, ChevronDown, Plus } from 'lucide-react';
 import { ProfileData, SuggestedProfile, FeedPost } from '../../types';
@@ -57,6 +57,17 @@ const RealPost: React.FC<{ postData: FeedPost; location?: string } & ClickablePr
   const { de_usuario, post } = postData;
   const maskedUsername = maskUsername(de_usuario.username);
   const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.like_count);
+
+  const handleLike = () => {
+    if (isLiked) {
+      setLikeCount(prev => prev - 1);
+    } else {
+      setLikeCount(prev => prev + 1);
+    }
+    setIsLiked(prev => !prev);
+  };
 
   return (
     <div className="border-b border-gray-800 mb-4">
@@ -87,8 +98,13 @@ const RealPost: React.FC<{ postData: FeedPost; location?: string } & ClickablePr
 
       <div className="flex justify-between items-center p-3">
         <div className="flex space-x-4">
-          <button onClick={() => onLockedFeatureClick('curtir publicações')}>
-            <img src="/icons/heart.png" alt="Curtir" className="w-6 h-6" style={{ filter: 'brightness(0) invert(1)' }} />
+          <button onClick={handleLike}>
+            <img 
+              src={isLiked ? "/icons/heart-liked.png" : "/icons/heart.png"} 
+              alt="Curtir" 
+              className="w-6 h-6" 
+              style={isLiked ? {} : { filter: 'brightness(0) invert(1)' }} 
+            />
           </button>
           <button onClick={() => onLockedFeatureClick('ver os comentários')}>
             <img src="/icons/comment.png" alt="Comentar" className="w-6 h-6" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -102,7 +118,7 @@ const RealPost: React.FC<{ postData: FeedPost; location?: string } & ClickablePr
         </button>
       </div>
       <div className="px-3 pb-3 text-xs">
-        <p onClick={() => onLockedFeatureClick('ver as curtidas')} className="font-semibold text-white mb-1 cursor-pointer">{new Intl.NumberFormat().format(post.like_count)} curtidas</p>
+        <p onClick={() => onLockedFeatureClick('ver as curtidas')} className="font-semibold text-white mb-1 cursor-pointer">{new Intl.NumberFormat().format(likeCount)} curtidas</p>
         {post.caption && (
           <p className="text-white"><span className="font-semibold mr-1">{maskedUsername}</span><span>{post.caption}</span></p>
         )}
