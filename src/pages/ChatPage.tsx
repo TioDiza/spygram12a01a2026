@@ -68,24 +68,24 @@ const DIALOGUES: { [key: string]: ChatMessage[] } = {
   
   // Diálogo para o segundo chat (ATUALIZADO)
   SECOND_CHAT: [
-    { id: 1, type: 'received', content: '', isStory: true, storyAuthor: 'tinhooficial', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg', reaction: '😂' },
+    { id: 1, type: 'received', content: '', isStory: true, storyAuthor: 'tinhooficial', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png', reaction: '😂' },
     { id: 2, type: 'date', content: '25 DE NOV, 15:22' },
-    { id: 3, type: 'received', content: '', isStory: true, storyAuthor: 'ikarozets', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg' },
+    { id: 3, type: 'received', content: '', isStory: true, storyAuthor: 'ikarozets', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png' },
     { id: 4, type: 'date', content: '27 DE NOV, 20:15' },
-    { id: 5, type: 'received', content: '', isStory: true, storyAuthor: 'tettrem', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg', reaction: '🥲' },
+    { id: 5, type: 'received', content: '', isStory: true, storyAuthor: 'tettrem', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png', reaction: '🥲' },
     { id: 6, type: 'sent', content: 'Esse achei triste' },
     { id: 7, type: 'date', content: '29 DE NOV, 14:08' },
-    { id: 8, type: 'sent', content: '', isStory: true, storyAuthor: 'signodaputaria', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg' },
-    { id: 9, type: 'received', content: '', isStory: true, storyAuthor: 'tettrem', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg' },
+    { id: 8, type: 'sent', content: '', isStory: true, storyAuthor: 'signodaputaria', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png' },
+    { id: 9, type: 'received', content: '', isStory: true, storyAuthor: 'tettrem', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png' },
     { id: 10, type: 'date', content: 'ONTEM, 18:45' },
-    { id: 11, type: 'sent', content: '', isStory: true, storyAuthor: 'safadodesejo', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg', reaction: '😂' },
+    { id: 11, type: 'sent', content: '', isStory: true, storyAuthor: 'safadodesejo', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png', reaction: '😂' },
     { id: 12, type: 'sent', content: 'kkkkkkkkkkkk' },
     { id: 13, type: 'received', content: 'Áudio', isAudio: true, audioDuration: '0:23', reaction: '😂' },
     { id: 14, type: 'date', content: 'ONTEM 22:11' },
-    { id: 15, type: 'received', content: '', isStory: true, storyAuthor: 'morimura', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg' },
+    { id: 15, type: 'received', content: '', isStory: true, storyAuthor: 'morimura', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png' },
     { id: 16, type: 'divider', content: 'Novas mensagens' },
     { id: 17, type: 'date', content: 'HOJE' },
-    { id: 18, type: 'received', content: '', isStory: true, storyAuthor: 'jonas.milgrau', storyAvatarUrl: '/perfil.jpg', storyImageUrl: '/perfil.jpg' },
+    { id: 18, type: 'received', content: '', isStory: true, storyAuthor: 'jonas.milgrau', storyAvatarUrl: '/foto-bloqueada.png', storyImageUrl: '/foto-bloqueada.png' },
   ],
 };
 

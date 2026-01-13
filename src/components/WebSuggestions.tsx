@@ -2,10 +2,10 @@ import React from 'react';
 import { ProfileData, SuggestedProfile } from '../../types';
 
 const mockSuggestions: SuggestedProfile[] = [
-  { username: 'reactjs', profile_pic_url: '/perfil.jpg' },
-  { username: 'tailwindcss', profile_pic_url: '/perfil.jpg' },
-  { username: 'vitejs', profile_pic_url: '/perfil.jpg' },
-  { username: 'typescript', profile_pic_url: '/perfil.jpg' },
+  { username: 'reactjs', profile_pic_url: '/foto-bloqueada.png' },
+  { username: 'tailwindcss', profile_pic_url: '/foto-bloqueada.png' },
+  { username: 'vitejs', profile_pic_url: '/foto-bloqueada.png' },
+  { username: 'typescript', profile_pic_url: '/foto-bloqueada.png' },
 ];
 
 // Helper function to mask usernames
