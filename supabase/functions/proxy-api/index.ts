@@ -36,11 +36,12 @@ serve(async (req) => {
 
     let targetUrl = '';
     let requestOptions: RequestInit = {};
-    let isNewApi = false;
+    let isProfileApi = false;
+    let isUserInfoApi = false;
 
     if (campo === 'perfil_completo') {
       // Usa a nova RapidAPI para buscar perfis
-      isNewApi = true;
+      isProfileApi = true;
       targetUrl = `${RAPIDAPI_BASE_URL}/api/instagram/profile`;
       requestOptions = {
         method: 'POST',
@@ -51,8 +52,21 @@ serve(async (req) => {
         },
         body: JSON.stringify({ username }),
       };
+    } else if (campo === 'perfis_sugeridos') {
+      // Usa a nova RapidAPI para buscar perfis sugeridos (userInfo)
+      isUserInfoApi = true;
+      targetUrl = `${RAPIDAPI_BASE_URL}/api/instagram/userInfo`;
+      requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-rapidapi-host': RAPIDAPI_HOST,
+          'x-rapidapi-key': API_SECRET_KEY,
+        },
+        body: JSON.stringify({ username }),
+      };
     } else {
-      // Usa a API antiga para outras requisições (sugestões, posts)
+      // Usa a API antiga para outras requisições (posts)
       targetUrl = `${OLD_API_BASE_URL}/api/field?campo=${encodeURIComponent(campo)}&username=${encodeURIComponent(username)}&secret=${API_SECRET_KEY}`;
       requestOptions = {
         headers: { 'Accept': 'application/json' }
@@ -70,7 +84,7 @@ serve(async (req) => {
     let data = await response.json();
 
     // Normaliza a estrutura de dados para corresponder ao formato da API antiga
-    if (isNewApi && data.result) {
+    if (isProfileApi && data.result) {
       const profile = data.result;
       data = {
         results: [
@@ -86,6 +100,17 @@ serve(async (req) => {
               is_verified: profile.is_verified || false,
               is_private: profile.is_private || false,
             }
+          }
+        ]
+      };
+    } else if (isUserInfoApi && data.result && Array.isArray(data.result) && data.result.length > 0) {
+      // A resposta de userInfo é um array, pegamos o primeiro item.
+      // 'chaining_results' contém os perfis sugeridos.
+      const suggestions = data.result[0].chaining_results || [];
+      data = {
+        results: [
+          {
+            data: suggestions
           }
         ]
       };
